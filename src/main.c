@@ -6,11 +6,24 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:08:39 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/18 18:14:22 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:24:54 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+static void	remove_all_textures(t_game *game)
+{
+	if (game->window && game->window->mlx_ptr)
+	{
+		if (game->wall_texture)
+			remove_texture(game->window->mlx_ptr, game->wall_texture);
+		if (game->floor_texture)
+			remove_texture(game->window->mlx_ptr, game->floor_texture);
+		if (game->ceiling_texture)
+			remove_texture(game->window->mlx_ptr, game->ceiling_texture);
+	}
+}
 
 void	free_game(t_game *game)
 {
@@ -18,6 +31,10 @@ void	free_game(t_game *game)
 	{
 		if (game->window)
 		{
+			remove_all_textures(game);
+			if (game->window->img_ptr)
+				free_pixel_data(game->window->img_ptr,
+					game->window->mlx_ptr);
 			if (game->window->win_ptr)
 				mlx_destroy_window(game->window->mlx_ptr,
 					game->window->win_ptr);
@@ -32,6 +49,23 @@ void	free_game(t_game *game)
 	}
 }
 
+void	init_game(t_game *game)
+{
+	if (!game)
+		return ;
+	game->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
+	if (!game->window)
+	{
+		ft_putstr_fd("Failed to create window\n", 2);
+		free_game(game);
+		exit(1);
+	}
+	game->wall_texture = NULL;
+	game->floor_texture = NULL;
+	game->ceiling_texture = NULL;
+	init_timer(&game->timer);
+}
+
 int	main(void)
 {
 	t_game	*game;
@@ -42,12 +76,14 @@ int	main(void)
 		ft_putstr_fd("Failed to allocate memory for game\n", 2);
 		return (1);
 	}
-	game->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
-	if (!game->window)
+	init_game(game);
+	game->wall_texture = load_texture(game->window->mlx_ptr,
+			"src/assets/img_xpm/Wall1.xpm");
+	if (!game->wall_texture)
 	{
-		free_game(game);
-		return (1);
+		ft_putstr_fd("Error: Failed to load wall texture\n", 2);
 	}
+	init_timer(&game->timer);
 	setup_hooks(game);
 	mlx_loop(game->window->mlx_ptr);
 	free_game(game);
