@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:08:39 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/28 16:38:03 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/29 19:22:48 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(void)
 	}
 	init_game(game);
 	game->wall_texture = load_texture(game->window->mlx_ptr,
-			"src/assets/img_xpm/Wall1.xpm");
+			"assets/textures/Wall1.xpm");
 	if (!game->wall_texture)
 	{
 		ft_putstr_fd("Error: Failed to load wall texture\n", 2);
