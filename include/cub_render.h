@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 17:26:20 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/28 14:55:31 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/28 18:53:57 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void		render_frame(t_data *data, void *mlx_ptr, void *win_ptr);
 
 /* function to free the pixel data and destroy the image */
 void		free_pixel_data(t_data *data, void *mlx_ptr);
+
+/* function to allocate and prepare image data */
+t_data		*prepare_image_data(void *mlx_ptr, int width, int height);
 
 /* ------------ helper functions for Bresenham's line algorithm --------------*/
 t_icoord	calcule_delta(t_icoord start, t_icoord end);

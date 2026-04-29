@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/28 16:09:24 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:09:00 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ typedef struct s_minimap	t_minimap;
 typedef struct s_player		t_player;
 typedef struct s_ray		t_ray;
 typedef struct s_data		t_data;
+typedef struct s_line		t_line;
+typedef struct s_frect		t_frect;
 typedef struct s_rectangle	t_rectangle;
 typedef struct s_sprite		t_sprite;
 typedef struct s_image		t_image;
 typedef struct s_timer		t_timer;
+typedef struct s_input		t_input;
 
 /*
 img: pointer to the image created by mlx_new_image
@@ -54,6 +57,13 @@ struct s_data
 	int		height;
 };
 
+struct t_line
+{
+	t_icoord	start;
+	t_icoord	end;
+	int			color;
+};
+
 /*
 timeval: structure that holds the last recorded time
 and the delta time between frames
@@ -67,6 +77,18 @@ struct s_timer
 {
 	struct timeval	last_time;
 	float			delta_time;
+};
+
+struct s_input
+{
+	int	left;
+	int	right;
+	int	up;
+	int	down;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
 };
 
 struct s_image
@@ -95,8 +117,12 @@ struct s_map
 
 struct s_ray
 {
+	t_data		*data;
 	t_icoord	pos;
 	t_icoord	dir;
+	t_dcoord	fpos;
+	t_dcoord	fdir;
+	t_dcoord	hit;
 	float		length;
 	int			hit_wall;
 	int			hit_sprite;
@@ -104,16 +130,23 @@ struct s_ray
 
 struct s_player
 {
-	t_icoord	pos;
+	t_dcoord	pos;
 	t_dim		dim;
 	int			color;
+	t_ray		ray;
+	float		angle;
+	float		collision_radius;
 };
 
 /* 
 buffer: structure that holds the minimap's image data and dimensions
+mlx_ptr: pointer to the MLX instance, used for all MLX operations
 dim: dimensions of the minimap
-minimap_pos: position of the minimap on the screen
+ref_map: reference to the main game map, used to determine what to render
+pos: position of the minimap on the screen
 offset: offset to center the minimap around the player
+player_pos: current position of the player, used to calculate 
+	the player's position on the minimap
 scale: scaling factor to adjust the size of the minimap
 */
 struct s_minimap
@@ -134,6 +167,17 @@ struct s_rectangle
 	t_dim		dim;
 	int			color;
 	t_icoord	points[9];
+};
+
+struct s_frect
+{
+	float	x;
+	float	y;
+	t_dcoord	pos;
+	t_dim   dim;
+	float	width;
+	float	height;
+	int		points[9];
 };
 
 struct s_sprite
@@ -162,9 +206,11 @@ struct s_game
 {
 	t_window		*window;
 	t_timer			timer;
+	t_input			input;
 	t_player		*player;
-	t_rectangle		player_rect;
+	t_frect			player_rect;
 	t_map			*map;
+	t_ray			ray;
 	t_render_cfg	config;
 	t_image			*wall_texture;
 	t_image			*floor_texture;
