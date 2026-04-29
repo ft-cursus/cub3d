@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:08:49 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/28 16:48:40 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:04:26 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "cub_structs.h"
 # include "cub_types.h"
 # include "cub_utils.h"
+# include "cub_parser.h"
 # include "cub_render.h"
 # include "cub_debug.h"
 # include "cub_input.h"
