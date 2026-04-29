@@ -6,13 +6,34 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/04/29 20:16:08 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:43:51 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-void parse_map()
+char	*read_file(char *file_name)
+{
+	char	*buffer;
+	char	*line;
+	int		fd;
+
+	buffer = NULL;
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+		printf("Error reading file.\n");
+	line = get_next_line(fd);
+	while (line)
+	{
+		buffer = ft_strjoin(buffer, line);
+		if (!buffer)
+			printf("Error joining line.\n");
+		line = get_next_line(fd);
+	}
+	return (buffer);
+}
+
+void    parse_map()
 {
 
 }
