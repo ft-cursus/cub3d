@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/28 16:09:24 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/29 19:53:23 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ struct s_render_cfg
 
 struct s_map
 {
+	t_image	*north_texture;
+	t_image	*south_texture;
+	t_image	*west_texture;
+	t_image	*east_texture;
+	int		*floor_color;
+	int		*ceiling_color;
 	char	**grid;
 	t_dim	dim;
 };
@@ -166,9 +172,6 @@ struct s_game
 	t_rectangle		player_rect;
 	t_map			*map;
 	t_render_cfg	config;
-	t_image			*wall_texture;
-	t_image			*floor_texture;
-	t_image			*ceiling_texture;
 	t_minimap		*minimap;
 };
 
