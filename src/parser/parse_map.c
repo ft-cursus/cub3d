@@ -6,7 +6,7 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/04/29 20:43:51 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/04/30 20:07:04 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ void    parse_map()
 {
 
 }
+int main(void)
+{
+	char *buffer;
 
+	buffer = read_file("assets/maps/valid.cub");
+	printf("%s", buffer);
+}
 // ler cada linha do arquivo
 // detectar se está no início ou final do arquivo (como?)
 // se estiver no início do arquivo, verificar se elementos seguem padrão
