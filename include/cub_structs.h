@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/29 20:09:00 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:24:27 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_game		t_game;
 typedef struct s_map		t_map;
 typedef struct s_minimap	t_minimap;
 typedef struct s_player		t_player;
+typedef struct s_camera		t_camera;
 typedef struct s_ray		t_ray;
 typedef struct s_data		t_data;
 typedef struct s_line		t_line;
@@ -57,7 +58,7 @@ struct s_data
 	int		height;
 };
 
-struct t_line
+struct s_line
 {
 	t_icoord	start;
 	t_icoord	end;
@@ -111,8 +112,10 @@ struct s_render_cfg
 
 struct s_map
 {
-	char	**grid;
-	t_dim	dim;
+	char			**grid;
+	t_dim			dim;
+	unsigned int	floor_color;
+	unsigned int	ceiling_color;
 };
 
 struct s_ray
@@ -126,6 +129,16 @@ struct s_ray
 	float		length;
 	int			hit_wall;
 	int			hit_sprite;
+	int			color;
+};
+
+struct s_camera
+{
+	t_dcoord	pos;
+	t_dcoord	dir;
+	t_dcoord	plane;
+	t_icoord	screen_dim;
+	float		inv_screen_width;
 };
 
 struct s_player
@@ -136,6 +149,7 @@ struct s_player
 	t_ray		ray;
 	float		angle;
 	float		collision_radius;
+	char		orientation;
 };
 
 /* 
@@ -171,13 +185,13 @@ struct s_rectangle
 
 struct s_frect
 {
-	float	x;
-	float	y;
+	float		x;
+	float		y;
 	t_dcoord	pos;
-	t_dim   dim;
-	float	width;
-	float	height;
-	int		points[9];
+	t_dim		dim;
+	float		width;
+	float		height;
+	int			points[9];
 };
 
 struct s_sprite
@@ -216,6 +230,7 @@ struct s_game
 	t_image			*floor_texture;
 	t_image			*ceiling_texture;
 	t_minimap		*minimap;
+	float			*z_buffer;
 };
 
 #endif
