@@ -6,7 +6,7 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/29 19:53:23 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/04 17:55:16 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ struct s_render_cfg
 
 struct s_map
 {
-	t_image	*north_texture;
-	t_image	*south_texture;
-	t_image	*west_texture;
-	t_image	*east_texture;
+	char	*north_texture;
+	char	*south_texture;
+	char	*west_texture;
+	char	*east_texture;
+	char	**grid;
 	int		*floor_color;
 	int		*ceiling_color;
-	char	**grid;
 	t_dim	dim;
 };
 

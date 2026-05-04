@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_parser.h                                       :+:      :+:    :+:   */
+/*   is_valid_color.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/29 20:17:59 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/04 17:53:10 by bmoreira         ###   ########.fr       */
+/*   Created: 2026/05/04 16:55:19 by bmoreira          #+#    #+#             */
+/*   Updated: 2026/05/04 16:58:27 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_PARSER_H
-# define CUB_PARSER_H
+#include "../../include/cub.h"
 
-# include "cub_structs.h"
-# include "cub_validation.h"
-# include <fcntl.h>
-
-typedef enum e_exit_code
+int	is_valid_color(char *id)
 {
-	READ_FILE,
-	INVALID_ELEMENT,
-	INVALID_COLOR,
-    JOIN_CONTENT,
-}	t_exit_code;
-
-void	error_handler(t_map *map, char **split, int exit_code);
-void	free_map(t_map *map);
-void	parse_element(t_map *map, char *line);
-void	parse_map(t_map *map, char *file_name);
-
-#endif
+	return (ft_strcmp(id, "F")
+		|| ft_strcmp(id, "C"));
+}

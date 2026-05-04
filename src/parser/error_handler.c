@@ -6,7 +6,7 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:36:36 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/04 16:47:12 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/04 17:49:51 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ void	error_handler(t_map *map, char **split, int exit_code)
 	else if (exit_code == INVALID_ELEMENT)
 		printf("Invalid element. Please provide a valid texture path or RGB."
 			"It must contain two space separated values: [ID] [PATH/COLOR]\n");
+	else if (exit_code == JOIN_CONTENT)
+		printf("Error joining content with current buffer.\n");
 	exit (1);
 }

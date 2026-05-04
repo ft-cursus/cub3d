@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_parser.h                                       :+:      :+:    :+:   */
+/*   is_valid_elements.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/29 20:17:59 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/04 17:53:10 by bmoreira         ###   ########.fr       */
+/*   Created: 2026/05/04 17:38:30 by bmoreira          #+#    #+#             */
+/*   Updated: 2026/05/04 17:45:19 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_PARSER_H
-# define CUB_PARSER_H
+#include "../../include/cub.h"
 
-# include "cub_structs.h"
-# include "cub_validation.h"
-# include <fcntl.h>
-
-typedef enum e_exit_code
+int	is_valid_elements(t_map *map)
 {
-	READ_FILE,
-	INVALID_ELEMENT,
-	INVALID_COLOR,
-    JOIN_CONTENT,
-}	t_exit_code;
-
-void	error_handler(t_map *map, char **split, int exit_code);
-void	free_map(t_map *map);
-void	parse_element(t_map *map, char *line);
-void	parse_map(t_map *map, char *file_name);
-
-#endif
+	return (map->north_texture
+			&& map->south_texture
+			&& map->west_texture
+			&& map->east_texture
+			&& map->grid
+			&& map->floor_color >= 0
+			&& map->ceiling_color >= 0);
+}
