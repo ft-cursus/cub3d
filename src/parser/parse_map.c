@@ -6,13 +6,13 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/04 15:01:53 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/04 16:46:59 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-int		is_texture(char *id)
+int		is_valid_texture(char *id)
 {
 	return (ft_strcmp(id, "NO")
 		|| ft_strcmp(id, "SO")
@@ -20,37 +20,82 @@ int		is_texture(char *id)
 		|| ft_strcmp(id, "EA"));
 }
 
-int		is_color(char *id)
+int		is_valid_color(char *id)
 {
 	return (ft_strcmp(id, "F")
 		|| ft_strcmp(id, "C"));
 }
 
-void	set_texture()
+void	set_texture(t_map *map, char *id, char *path)
 {
-
+	if (ft_strcmp(id, "NO"))
+		map->north_texture = path;
+	else if (ft_strcmp(id, "SO"))
+		map->south_texture = path;
+	else if (ft_strcmp(id, "WE"))
+		map->west_texture = path;
+	else if (ft_strcmp(id, "EA"))
+		map->east_texture = path;
 }
 
-void	set_color()
+int	is_valid_rgb(char **rgb)
 {
+	int	num;
+	int	i;
 
+	i = 0;
+	num = 0;
+	if (ft_split_size(rgb) != 3)
+		return (0);
+	while (rgb[i])
+	{
+		num = ft_atoi(rgb[i]);
+		if (num < 0 || num > 255)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void	get_map_element(char *line)
+int	get_rgb(int r, int g, int b)
 {
-	char	**splitted;
+	return (r << 16 | g << 8 | b);
+}
 
-	splitted = ft_split(line, " ");
-	if (ft_split_size(splitted) != 2)
-		printf("Invalid element. Must contain two space separated values: "
-			"[ID] [PATH/COLOR]");
-	if (is_texture(splitted[0]))
-		set_texture(splitted[1]);
-	else if (is_color(splitted[0]))
-		set_color(splitted[1]);
+void	set_color(t_map *map, char *id, char *color)
+{
+	char	**rgb;
+
+	rgb = ft_split(color, ',');
+	if (is_valid_rgb(rgb))
+	{
+		if (ft_strcmp(id, "F"))
+			map->floor_color =
+				get_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+		else if (ft_strcmp(id, "C"))
+			map->ceiling_color =
+				get_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+		free(id);
+		free(color);
+	}
 	else
-		printf("Invalid element. Please provide a orientation "
-			"texture path or RGB color.");
+		error_handler(map, rgb, INVALID_COLOR);
+}
+
+void	get_map_element(t_map *map, char *line)
+{
+	char	**element;
+
+	element = ft_split(line, ' ');
+	free(line);
+	if (ft_split_size(element) != 2)
+		error_handler(map, element, INVALID_ELEMENT);
+	if (is_valid_texture(element[0]))
+		set_texture(map, element[0], element[1]);
+	else if (is_valid_color(element[0]))
+		set_color(map, element[0], element[1]);
+	else
+		error_handler(map, element, INVALID_ELEMENT);
 }
 // receber linha
 // splitar por espaço
@@ -62,7 +107,7 @@ void	get_map_element(char *line)
 // fazer atoi nos itens
 // checar se valores vao de 0 a 255
 
-char	*read_file(char *file_name)
+char	*read_file(t_map *map, char *file_name)
 {
 	char	*buffer;
 	char	*line;
@@ -71,7 +116,7 @@ char	*read_file(char *file_name)
 	buffer = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		printf("Error reading file.\n");
+		error_handler(map, NULL, READ_FILE);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -91,12 +136,31 @@ void    parse_map()
 	
 }
 
+t_map	*init_map(void)
+{
+	t_map	*map;
+
+	map = ft_calloc(1, sizeof(t_map));
+	map->north_texture = NULL;
+	map->south_texture = NULL;
+	map->west_texture = NULL;
+	map->east_texture = NULL;
+	map->floor_color = -1;
+	map->ceiling_color = -1;
+	map->grid = NULL;
+	return (map);
+}
+
 int main(void)
 {
+	t_map *map;
 	char *buffer;
 	char **split;
+	char *path;
 
-	buffer = read_file("assets/maps/valid.cub");
+	map = init_map();
+	path = "assets/maps/valid.cub";
+	buffer = read_file(map, path);
 	printf("%s", buffer);
 	split = ft_split(buffer, '\n');
 }
