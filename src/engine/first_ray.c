@@ -6,73 +6,76 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:07:25 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/30 15:41:26 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/04 16:14:19 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-static void	init_ray_for_player(t_ray *ray, t_player *player,
-				float ray_angle, t_data *target)
+static void	find_wall_hit(t_dda *dda, t_minimap *map)
 {
-	ray->data = target;
-	ray->fpos = player->pos;
-	ray->fdir.x = cosf(ray_angle);
-	ray->fdir.y = sinf(ray_angle);
-	ray->length = 0;
-	ray->hit_wall = 0;
-	ray->hit_sprite = 0;
-	ray->color = RED;
+	dda->hit = 0;
+	while (!dda->hit)
+	{
+		update_ray_step(dda);
+		if (!check_bounds(dda, map))
+			break ;
+		if (map->ref_map->grid[dda->rmap.y][dda->rmap.x] == '1')
+		{
+			dda->hit = 1;
+			break ;
+		}
+	}
 }
 
 void	trace_ray(t_ray *ray, t_minimap *map, t_dcoord *hit_point)
 {
-	int			max_distance;
-	t_icoord	map_pos;
+	t_dda	dda;
 
-	max_distance = 1000;
-	while (ray->length < max_distance)
+	if (!validate_trace_inputs(ray, map, hit_point))
+		return ;
+	init_dda_variables(ray, &dda.rd, &dda.rmap, &dda.delta_dist);
+	dda.side = 0;
+	dda.hit = 0;
+	calc_side_dist(&dda, ray->fpos);
+	find_wall_hit(&dda, map);
+	if (map->ref_map->grid[dda.rmap.y][dda.rmap.x] == '1')
+		update_ray_hit_data(ray, &dda, hit_point);
+	else
 	{
-		map_pos.x = (int)ray->fpos.x;
-		map_pos.y = (int)ray->fpos.y;
-		if (map_pos.x < 0 || map_pos.x >= map->ref_map->dim.width
-			|| map_pos.y < 0 || map_pos.y >= map->ref_map->dim.height)
-			break ;
-		if (map->ref_map->grid[map_pos.y][map_pos.x] == '1')
-			break ;
-		ray->fpos.x += ray->fdir.x * STEP_SIZE;
-		ray->fpos.y += ray->fdir.y * STEP_SIZE;
-		ray->length += STEP_SIZE;
+		ray->length = 0.0f;
+		ray->hit = ray->fpos;
+		if (hit_point)
+			*hit_point = ray->hit;
 	}
-	ray->pos.x = (int)ray->fpos.x;
-	ray->pos.y = (int)ray->fpos.y;
-	ray->dir.x = (int)roundf(ray->fdir.x);
-	ray->dir.y = (int)roundf(ray->fdir.y);
-	*hit_point = (t_dcoord){ray->fpos.x, ray->fpos.y};
 }
 
-void	draw_ray_on_minimap(t_ray *ray, t_minimap *map, t_player *player,
-				t_dcoord *hit_point)
+void	draw_ray_on_minimap(t_ray *ray, t_minimap *map, t_dcoord *hit_point)
 {
 	t_icoord	start;
 	t_icoord	end;
-	t_fcoord	cur;
 
-	cur.x = hit_point->x;
-	cur.y = hit_point->y;
-	start.x = (int)(player->pos.x * map->scale + map->offset.x);
-	start.y = (int)(player->pos.y * map->scale + map->offset.y);
-	end.x = (int)(cur.x * map->scale + map->offset.x);
-	end.y = (int)(cur.y * map->scale + map->offset.y);
-	if (ray->data)
-		draw_line(ray->data, start, end, ray->color);
+	if (!ray || !map || !ray->player || !hit_point || !ray->data)
+		return ;
+	start.x = (int)(ray->player->pos.x * map->scale + map->offset.x);
+	start.y = (int)(ray->player->pos.y * map->scale + map->offset.y);
+	end.x = (int)(hit_point->x * map->scale + map->offset.x);
+	end.y = (int)(hit_point->y * map->scale + map->offset.y);
+	draw_line(ray->data, start, end, ray->color);
+}
+
+void	render_ray(t_ray *ray, t_minimap *map)
+{
+	if (!ray || !map || !ray->player || !map->ref_map || !map->ref_map->grid)
+		return ;
+	trace_ray(ray, map, &ray->hit);
+	draw_ray_on_minimap(ray, map, &ray->hit);
 }
 
 void	render_first_ray(t_player *player, t_minimap *mmap, t_ray *ray)
 {
 	if (!player || !mmap || !ray || !mmap->ref_map || !mmap->ref_map->grid)
 		return ;
-	init_ray_for_player(ray, player, player->angle, mmap->buffer);
-	trace_ray(ray, mmap, &ray->hit);
-	draw_ray_on_minimap(ray, mmap, player, &ray->hit);
+	init_ray(ray, player, player->angle, mmap->buffer);
+	render_ray(ray, mmap);
 }

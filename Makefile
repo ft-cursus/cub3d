@@ -6,7 +6,7 @@
 #    By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/17 15:15:33 by lsarraci          #+#    #+#              #
-#    Updated: 2026/04/30 16:28:38 by lsarraci         ###   ########.fr        #
+#    Updated: 2026/05/04 16:14:09 by lsarraci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT_DIR = $(LIB_DIR)/libft
 MLX_DIR = $(LIB_DIR)/minilibx-linux
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 INCLUDE = -I$(LIBFT_DIR) -I$(LIB_DIR)/$(MLX_DIR) -Iinclude
 MLX_LINK = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -32,6 +32,7 @@ SRC = main.c \
 
 DEBUG_DIR = debug
 SRC += $(DEBUG_DIR)/map_debug.c \
+		$(DEBUG_DIR)/map_utils.c \
 
 ENGINE_DIR = engine
 SRC += $(ENGINE_DIR)/movement.c \
@@ -40,7 +41,11 @@ SRC += $(ENGINE_DIR)/movement.c \
 		$(ENGINE_DIR)/vision_ray.c \
 		$(ENGINE_DIR)/collision.c \
 		$(ENGINE_DIR)/engine_utils.c \
-		$(ENGINE_DIR)/raycaster.c \
+		$(ENGINE_DIR)/dda.c \
+		$(ENGINE_DIR)/raycaster_init.c \
+		$(ENGINE_DIR)/raycaster_color.c \
+		$(ENGINE_DIR)/raycaster_column.c \
+		$(ENGINE_DIR)/raycaster_utils.c \
 
 INPUT_DIR = input
 SRC += $(INPUT_DIR)/arrows.c \
@@ -49,6 +54,7 @@ RENDER_DIR = render
 SRC += $(RENDER_DIR)/render.c \
 	   $(RENDER_DIR)/minimap_layer.c \
 	   $(RENDER_DIR)/minimap_layer_utils.c \
+	   $(RENDER_DIR)/raycaster_layer.c \
 	   $(RENDER_DIR)/bg_layer.c \
 	   $(RENDER_DIR)/pixel.c \
 	   $(RENDER_DIR)/shapes.c \

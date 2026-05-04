@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:32:26 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/30 16:27:22 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/04 14:33:37 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ static void	init_null_defaults(t_game *game)
 	game->minimap = NULL;
 	game->ray.data = NULL;
 	game->z_buffer = NULL;
+	game->config.fog_distance = 20.0f;
+	game->config.light_intensity = 1.0f;
+	game->config.shadow_factor = 0.1f;
+	game->config.max_render_distance = 100;
+	game->config.render_quality = 1;
+	ft_bzero(&game->input, sizeof(t_input));
+	ft_bzero(&game->player_rect, sizeof(t_frect));
+	ft_bzero(&game->ray, sizeof(t_ray));
 }
 
 void	init_game(t_game *game)
@@ -43,11 +51,8 @@ void	init_game(t_game *game)
 	game->player = create_player();
 	if (!game->player)
 		alert_and_exit("Failed to create player\n", game);
-	fprintf(stderr, "init_game: init_map\n");
 	init_map(game);
-	fprintf(stderr, "init_game: setting ray.data\n");
 	game->ray.data = game->window->img_ptr;
-	fprintf(stderr, "init_game: creating minimap\n");
 	game->minimap = create_minimap(game);
 	if (!game->minimap)
 		alert_and_exit("Failed to create minimap\n", game);

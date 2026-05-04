@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 17:26:20 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/30 15:30:04 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/04 16:37:27 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,17 @@ t_data		*prepare_image_data(void *mlx_ptr, int width, int height);
 t_icoord	calcule_delta(t_icoord start, t_icoord end);
 t_icoord	calcule_step(t_icoord start, t_icoord end);
 
+/* function to calculate the pivot points of a rectangle for rotation and scaling */
 void		calculate_pivot_points(t_rectangle *rect);
+
+/*----------------------- texture management functions ------------------ */
+
 
 t_image		*load_texture(void *mlx_ptr, char *path);
 void		render_texture(t_data *data, t_image *texture, t_icoord pos);
 void		draw_textured_rectangle(t_data *data, t_icoord pos, t_dim dim,
 				t_image *texture);
 void		remove_texture(void *mlx_ptr, t_image *texture);
+t_image		*get_directional_texture(t_game *game);
 
 #endif

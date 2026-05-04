@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/30 16:24:27 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/04 14:54:25 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ typedef struct s_map		t_map;
 typedef struct s_minimap	t_minimap;
 typedef struct s_player		t_player;
 typedef struct s_camera		t_camera;
+typedef struct s_column		t_column;
+typedef struct s_wall_ctx	t_wall_ctx;
 typedef struct s_ray		t_ray;
+typedef struct s_dda		t_dda;
+typedef struct s_wall		t_wall;
+typedef struct s_illum		t_illum;
 typedef struct s_data		t_data;
 typedef struct s_line		t_line;
 typedef struct s_frect		t_frect;
@@ -103,15 +108,47 @@ struct s_image
 
 struct s_render_cfg
 {
-	float	fog_distance;
-	float	light_intensity;
-	float	shadow_factor;
-	int		max_render_distance;
-	int		render_quality;
+	float			fog_distance;
+	float			ray_distance;
+	float			light_intensity;
+	float			shadow_factor;
+	float			shade;
+	float			shadow_k;
+	int				max_render_distance;
+	int				render_quality;
+	t_color			base_color;
+	t_color			shade_color;
+	t_color			tex_color;
+	unsigned int	shaded_hex;
+};
+
+struct s_column
+{
+	int			x;
+	int			line_h;
+	float		perp;
+	int			tex_x;
+	int			screen_h;
+};
+
+struct s_wall_ctx
+{
+	double wall_x;
+	t_image *texture;
+	int tex_x;
+	int hit_side;
 };
 
 struct s_map
 {
+	t_image 		*north_texture;
+	t_image 		*south_texture;
+	t_image 		*west_texture;
+	t_image 		*east_texture;
+	char			*north_path;
+	char			*south_path;
+	char			*west_path;
+	char			*east_path;
 	char			**grid;
 	t_dim			dim;
 	unsigned int	floor_color;
@@ -121,6 +158,7 @@ struct s_map
 struct s_ray
 {
 	t_data		*data;
+	t_player	*player;
 	t_icoord	pos;
 	t_icoord	dir;
 	t_dcoord	fpos;
@@ -129,7 +167,19 @@ struct s_ray
 	float		length;
 	int			hit_wall;
 	int			hit_sprite;
+	int			hit_side; /* 0 = vertical (x), 1 = horizontal (y) */
 	int			color;
+};
+
+struct s_dda
+{
+	t_icoord	rmap;
+	t_dcoord	rd;
+	t_dcoord	delta_dist;
+	t_dcoord	side_dist;
+	t_icoord	step;
+	int			hit;
+	int			side;
 };
 
 struct s_camera
