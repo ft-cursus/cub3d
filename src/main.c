@@ -6,24 +6,24 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:08:39 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/29 19:22:48 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/04 16:51:10 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	remove_all_textures(t_game *game)
-{
-	if (game->window && game->window->mlx_ptr)
-	{
-		if (game->wall_texture)
-			remove_texture(game->window->mlx_ptr, game->wall_texture);
-		if (game->floor_texture)
-			remove_texture(game->window->mlx_ptr, game->floor_texture);
-		if (game->ceiling_texture)
-			remove_texture(game->window->mlx_ptr, game->ceiling_texture);
-	}
-}
+// static void	remove_all_textures(t_game *game)
+// {
+// 	if (game->window && game->window->mlx_ptr)
+// 	{
+// 		if (game->wall_texture)
+// 			remove_texture(game->window->mlx_ptr, game->wall_texture);
+// 		if (game->floor_texture)
+// 			remove_texture(game->window->mlx_ptr, game->floor_texture);
+// 		if (game->ceiling_texture)
+// 			remove_texture(game->window->mlx_ptr, game->ceiling_texture);
+// 	}
+// }
 
 static void	remove_buffer_data(t_game *game)
 {
@@ -71,12 +71,12 @@ int	main(void)
 		return (1);
 	}
 	init_game(game);
-	game->wall_texture = load_texture(game->window->mlx_ptr,
-			"assets/textures/Wall1.xpm");
-	if (!game->wall_texture)
-	{
-		ft_putstr_fd("Error: Failed to load wall texture\n", 2);
-	}
+	// game->wall_texture = load_texture(game->window->mlx_ptr,
+	// 		"assets/textures/Wall1.xpm");
+	// if (!game->wall_texture)
+	// {
+	// 	ft_putstr_fd("Error: Failed to load wall texture\n", 2);
+	// }
 	init_timer(&game->timer);
 	setup_hooks(game);
 	mlx_loop(game->window->mlx_ptr);

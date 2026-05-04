@@ -6,7 +6,7 @@
 /*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:32:26 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/29 20:07:30 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/04 16:48:09 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ static void	alert_and_exit(char *message, t_game *game)
 static void	init_null_defaults(t_game *game)
 {
 	game->map = NULL;
-	game->map->north_texture = NULL;
-	game->map->south_texture = NULL;
-	game->map->west_texture = NULL;
-	game->map->east_texture = NULL;
-	game->map->floor_color = -1;
-	game->map->ceiling_color = -1;
-	game->map->grid = NULL;
 	game->player = NULL;
 }
 
