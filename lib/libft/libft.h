@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 16:44:18 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/10 18:30:37 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/04 14:50:32 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(char *str, int character);
+int		ft_split_size(char **split);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(char *src);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));

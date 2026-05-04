@@ -6,7 +6,7 @@
 #    By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/12 17:38:39 by lsarraci          #+#    #+#              #
-#    Updated: 2026/04/30 20:41:11 by bmoreira         ###   ########.fr        #
+#    Updated: 2026/05/04 14:50:51 by bmoreira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC = ft_atoi.c \
 		ft_putnbr_fd.c \
 		ft_putstr_fd.c \
 		ft_split.c \
+		ft_split_size.c \
 		ft_strchr.c \
 		ft_strcmp.c \
 		ft_strdup.c \
