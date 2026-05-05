@@ -6,7 +6,7 @@
 #    By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/17 15:15:33 by lsarraci          #+#    #+#              #
-#    Updated: 2026/05/04 17:02:48 by lsarraci         ###   ########.fr        #
+#    Updated: 2026/05/05 17:15:08 by lsarraci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,7 @@ SRC = main.c \
 	  init.c \
 	  hooks.c \
 	  window.c \
-
-DEBUG_DIR = debug
-SRC += $(DEBUG_DIR)/map_debug.c \
-		$(DEBUG_DIR)/map_utils.c \
+	  frees.c \
 
 ENGINE_DIR = engine
 SRC += $(ENGINE_DIR)/movement.c \
@@ -48,7 +45,15 @@ SRC += $(ENGINE_DIR)/movement.c \
 
 INPUT_DIR = input
 SRC += $(INPUT_DIR)/arrows.c \
-	   
+
+PARSER_DIR = parser
+SRC += $(PARSER_DIR)/parse_map.c \
+	   $(PARSER_DIR)/parse_element.c \
+	   $(PARSER_DIR)/error_handler.c \
+	   $(PARSER_DIR)/validator.c \
+	   $(PARSER_DIR)/init_map.c \
+	   $(PARSER_DIR)/map_utils.c \
+
 RENDER_DIR = render
 SRC += $(RENDER_DIR)/render.c \
 	   $(RENDER_DIR)/minimap_layer.c \
