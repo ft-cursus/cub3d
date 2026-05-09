@@ -1,0 +1,11 @@
+*.out
+.vscode
+a.out
+cub3D
+*.o
+obj*
+TODO
+main
+*linux
+fail*
+*.a
