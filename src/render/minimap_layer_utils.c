@@ -53,10 +53,10 @@ void	set_minimap_addresses(t_data *main_buffer, t_minimap *mmap,
 
 void	render_player_and_ray(t_game *game, t_minimap *minimap)
 {
-	if (game->player->pos.x >= 0 && game->player->pos.y >= 0)
+	if (game->map->player->pos.x >= 0 && game->map->player->pos.y >= 0)
 	{
 		draw_player_on_minimap(minimap, game);
-		render_first_ray(game->player, minimap, &game->ray);
-		draw_fov_rays(game->player, minimap, minimap->buffer);
+		render_first_ray(game->map->player, minimap, &game->ray);
+		draw_fov_rays(game->map->player, minimap, minimap->buffer);
 	}
 }

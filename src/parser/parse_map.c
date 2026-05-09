@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/05 16:54:31 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 20:10:43 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_map	*init_map(void)
 	map->grid = NULL;
 	map->floor_color = -1;
 	map->ceiling_color = -1;
+	map->player = create_player();
+	if (!map->player)
+		error_handler(map, NULL, INVALID_GRID);
 	return (map);
 }
 
@@ -99,6 +102,7 @@ int	parse_map(t_map *map, char *file_name)
 		else
 		{
 			parse_grid(map, fd, line);
+			validate_grid(map);
 			return (0);
 		}
 	}

@@ -50,6 +50,7 @@ PARSER_DIR = parser
 SRC += $(PARSER_DIR)/parse_map.c \
 	   $(PARSER_DIR)/parse_element.c \
 	   $(PARSER_DIR)/error_handler.c \
+	   $(PARSER_DIR)/validate_grid.c \
 	   $(PARSER_DIR)/validator.c \
 	   $(PARSER_DIR)/init_map.c \
 	   $(PARSER_DIR)/map_utils.c \

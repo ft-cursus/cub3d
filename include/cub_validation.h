@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_validation.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:56:05 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/07 15:39:35 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 19:58:01 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ int	is_valid_rgb(char **rgb);
 
 /*verify if the texture identifier is valid (NO, SO, WE, EA)*/
 int	is_valid_texture(char *id);
+
+/*verify if the character is allowed inside grid (N, S, W, E, 1, 0)*/
+int	is_valid_map_char(char c);
 
 #endif

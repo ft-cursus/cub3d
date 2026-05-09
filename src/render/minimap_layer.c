@@ -19,11 +19,11 @@ void	draw_player_on_minimap(t_minimap *minimap, t_game *game)
 	t_dcoord	p;
 	int			width_px;
 
-	if (!minimap || !game || !game->player)
+	if (!minimap || !game || !game->map || !game->map->player)
 		return ;
-	p.x = game->player->pos.x * minimap->scale;
-	p.y = game->player->pos.y * minimap->scale;
-	width_px = (int)roundf(game->player->collision_radius * 2.0f
+	p.x = game->map->player->pos.x * minimap->scale;
+	p.y = game->map->player->pos.y * minimap->scale;
+	width_px = (int)roundf(game->map->player->collision_radius * 2.0f
 			* minimap->scale);
 	tile_dim.width = width_px;
 	tile_dim.height = width_px;
@@ -64,7 +64,8 @@ static void	setup_minimap_render(t_minimap *minimap, t_game *game)
 void	render_minimap(t_minimap *minimap, t_game *game)
 {
 	if (!minimap || !minimap->buffer || !minimap->ref_map
-		|| !minimap->ref_map->grid || !game || !game->player)
+		|| !minimap->ref_map->grid || !game || !game->map
+		|| !game->map->player)
 		return ;
 	setup_minimap_render(minimap, game);
 	draw_minimap_grid(minimap);

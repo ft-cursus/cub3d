@@ -16,17 +16,17 @@
 static int	update_input_render(t_game *game)
 {
 	if (game->input.left)
-		handle_arrow_press(KEY_LEFT, game->player, game);
+		handle_arrow_press(KEY_LEFT, game->map->player, game);
 	if (game->input.right)
-		handle_arrow_press(KEY_RIGHT, game->player, game);
+		handle_arrow_press(KEY_RIGHT, game->map->player, game);
 	if (game->input.w)
-		set_directional_movement(KEY_W, game->player, game);
+		set_directional_movement(KEY_W, game->map->player, game);
 	if (game->input.s)
-		set_directional_movement(KEY_S, game->player, game);
+		set_directional_movement(KEY_S, game->map->player, game);
 	if (game->input.a)
-		set_directional_movement(KEY_A, game->player, game);
+		set_directional_movement(KEY_A, game->map->player, game);
 	if (game->input.d)
-		set_directional_movement(KEY_D, game->player, game);
+		set_directional_movement(KEY_D, game->map->player, game);
 	return (0);
 }
 

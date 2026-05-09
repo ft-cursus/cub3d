@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:55:19 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/05 16:36:24 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 19:56:32 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,11 @@ int	is_valid_texture(char *id)
 		|| !ft_strcmp(id, "SO")
 		|| !ft_strcmp(id, "WE")
 		|| !ft_strcmp(id, "EA"));
+}
+
+
+int	is_valid_map_char(char c)
+{
+	return (c == '0' || c == '1' || c == ' '
+		|| c == '\t' || is_orientation_char(c));
 }
