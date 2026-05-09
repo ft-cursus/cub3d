@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:07:25 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/04 16:14:19 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 19:02:40 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static void	find_wall_hit(t_dda *dda, t_minimap *map)
 {
+	int		iterations;
+
 	dda->hit = 0;
-	while (!dda->hit)
+	iterations = 0;
+	while (!dda->hit && iterations < 1000)
 	{
+		iterations++;
 		update_ray_step(dda);
 		if (!check_bounds(dda, map))
 			break ;
@@ -39,7 +43,8 @@ void	trace_ray(t_ray *ray, t_minimap *map, t_dcoord *hit_point)
 	dda.hit = 0;
 	calc_side_dist(&dda, ray->fpos);
 	find_wall_hit(&dda, map);
-	if (map->ref_map->grid[dda.rmap.y][dda.rmap.x] == '1')
+	if (check_bounds(&dda, map)
+		&& map->ref_map->grid[dda.rmap.y][dda.rmap.x] == '1')
 		update_ray_hit_data(ray, &dda, hit_point);
 	else
 	{

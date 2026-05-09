@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/05 16:54:31 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 18:39:09 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	process_config_line(t_map *map, char *line)
 		return (0);
 	}
 	ft_free_split(parts);
+	if (!is_valid_map_line(line))
+		error_handler(map, NULL, INVALID_ELEMENT);
 	return (1);
 }
 

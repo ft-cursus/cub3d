@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 15:44:56 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/05 17:27:34 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 19:04:18 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	set_player_from_char(t_game *game, t_icoord pos)
 	orientation_char = game->map->grid[pos.y][pos.x];
 	game->player->pos.x = pos.x;
 	game->player->pos.y = pos.y;
+	game->player->orientation = orientation_char;
 	game->player->angle = set_start_angle(orientation_char);
 }
 

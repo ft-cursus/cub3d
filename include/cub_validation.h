@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:56:05 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/07 15:39:35 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 19:06:29 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ int	is_valid_rgb(char **rgb);
 
 /*verify if the texture identifier is valid (NO, SO, WE, EA)*/
 int	is_valid_texture(char *id);
+
+/*verify if a line contains only valid map characters
+(0, 1, space, N, S, E, W)*/
+int	is_valid_map_line(char *line);
 
 #endif
