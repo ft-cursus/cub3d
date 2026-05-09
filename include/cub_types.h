@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cub_types.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:23:00 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/04 17:04:42 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 15:36:46 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_TYPES_H
 # define CUB_TYPES_H
 
+/* shared constants and primitive types
+ * defines project-wide colors, window sizing, math constants, and coordinate types
+ */
 # define BLUE 0x0000FF
 # define GREEN 0x00FF00
 # define RED 0xFF0000

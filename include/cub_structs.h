@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cub_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/05 17:05:46 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 15:41:36 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_STRUCTS_H
 # define CUB_STRUCTS_H
 
+/* project-wide data structures
+ * groups the runtime state used by parsing, rendering, input, minimap, and raycasting
+ */
 # include "cub_types.h"
 
 typedef struct s_render_cfg	t_render_cfg;
