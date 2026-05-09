@@ -66,6 +66,11 @@ struct s_data
 	int		height;
 };
 
+/*
+start: line start coordinate
+end: line end coordinate
+color: line color in packed hex
+*/
 struct s_line
 {
 	t_icoord	start;
@@ -88,6 +93,16 @@ struct s_timer
 	float			delta_time;
 };
 
+/*
+left: arrow left pressed
+right: arrow right pressed
+up: arrow up pressed
+down: arrow down pressed
+w: move forward pressed
+a: strafe left pressed
+s: move backward pressed
+d: strafe right pressed
+*/
 struct s_input
 {
 	int	left;
@@ -100,6 +115,13 @@ struct s_input
 	int	d;
 };
 
+/*
+img_ptr: MLX image handle
+path: texture file path
+addr: pointer to raw pixel data
+data: cached image metadata
+dim: image dimensions in pixels
+*/
 struct s_image
 {
 	void	*img_ptr;
@@ -109,6 +131,20 @@ struct s_image
 	t_dim	dim;
 };
 
+/*
+fog_distance: max distance before fog fully applies
+ray_distance: max ray distance for rendering
+light_intensity: global light strength
+shadow_factor: shadow contribution factor
+shade: current shade multiplier
+shadow_k: shadow curve coefficient
+max_render_distance: render cutoff distance
+render_quality: quality level for rendering
+base_color: base RGB color for shading
+shade_color: shaded RGB color
+tex_color: texture RGB color
+shaded_hex: final shaded color packed as hex
+*/
 struct s_render_cfg
 {
 	float			fog_distance;
@@ -125,6 +161,13 @@ struct s_render_cfg
 	unsigned int	shaded_hex;
 };
 
+/*
+x: screen column index
+line_h: projected wall slice height
+perp: perpendicular distance to wall
+tex_x: texture column index
+screen_h: screen height used for projection
+*/
 struct s_column
 {
 	int			x;
@@ -134,6 +177,12 @@ struct s_column
 	int			screen_h;
 };
 
+/*
+wall_x: horizontal hit position on the wall
+texture: texture selected for the hit side
+tex_x: texture column index
+hit_side: which side of the wall was hit
+*/
 struct s_wall_ctx
 {
 	double	wall_x;
@@ -142,6 +191,20 @@ struct s_wall_ctx
 	int		hit_side;
 };
 
+/*
+north_texture: loaded north wall texture
+south_texture: loaded south wall texture
+west_texture: loaded west wall texture
+east_texture: loaded east wall texture
+north_path: north texture file path
+south_path: south texture file path
+west_path: west texture file path
+east_path: east texture file path
+grid: map grid rows
+dim: map dimensions in tiles
+floor_color: floor color in packed hex
+ceiling_color: ceiling color in packed hex
+*/
 struct s_map
 {
 	t_image			*north_texture;
@@ -158,6 +221,20 @@ struct s_map
 	unsigned int	ceiling_color;
 };
 
+/*
+data: target image buffer
+player: player state reference
+pos: ray position in grid coords
+dir: ray direction in grid coords
+fpos: ray position in world coords
+fdir: ray direction in world coords
+hit: hit point in world coords
+length: total ray length
+hit_wall: wall hit flag
+hit_sprite: sprite hit flag
+hit_side: wall side hit
+color: final hit color
+*/
 struct s_ray
 {
 	t_data		*data;
@@ -174,6 +251,15 @@ struct s_ray
 	int			color;
 };
 
+/*
+rmap: current grid position
+rd: ray direction
+delta_dist: distance to next side in each axis
+side_dist: accumulated side distance
+step: grid step direction
+hit: hit flag
+side: hit side index
+*/
 struct s_dda
 {
 	t_icoord	rmap;
@@ -185,6 +271,13 @@ struct s_dda
 	int			side;
 };
 
+/*
+pos: camera position
+dir: camera direction
+plane: camera projection plane
+screen_dim: screen dimensions
+inv_screen_width: inverse of screen width
+*/
 struct s_camera
 {
 	t_dcoord	pos;
@@ -194,6 +287,15 @@ struct s_camera
 	float		inv_screen_width;
 };
 
+/*
+pos: player position in world coords
+dim: player dimensions
+color: player color
+ray: player-facing ray data
+angle: player viewing angle
+collision_radius: player collision radius
+orientation: spawn orientation
+*/
 struct s_player
 {
 	t_dcoord	pos;
@@ -205,15 +307,15 @@ struct s_player
 	char		orientation;
 };
 
-/* 
+/*
 buffer: structure that holds the minimap's image data and dimensions
 mlx_ptr: pointer to the MLX instance, used for all MLX operations
 dim: dimensions of the minimap
 ref_map: reference to the main game map, used to determine what to render
 pos: position of the minimap on the screen
 offset: offset to center the minimap around the player
-player_pos: current position of the player, used to calculate 
-	the player's position on the minimap
+player_pos: current position of the player, used to calculate
+the player's position on the minimap
 scale: scaling factor to adjust the size of the minimap
 */
 struct s_minimap
@@ -228,6 +330,12 @@ struct s_minimap
 	float		scale;
 };
 
+/*
+pos: rectangle position
+dim: rectangle dimensions
+color: rectangle color
+points: rectangle corner and pivot points
+*/
 struct s_rectangle
 {
 	t_icoord	pos;
@@ -236,6 +344,15 @@ struct s_rectangle
 	t_icoord	points[9];
 };
 
+/*
+x: rectangle x position
+y: rectangle y position
+pos: rectangle position in world coords
+dim: rectangle dimensions
+width: rectangle width
+height: rectangle height
+points: sampled points for collision checks
+*/
 struct s_frect
 {
 	float		x;
@@ -247,6 +364,13 @@ struct s_frect
 	int			points[9];
 };
 
+/*
+pos: sprite position
+dim: sprite dimensions
+texture: sprite texture
+color: sprite color
+rotation: sprite rotation
+*/
 struct s_sprite
 {
 	t_icoord	pos;
@@ -257,10 +381,11 @@ struct s_sprite
 };
 
 /*
-mlx_ptr: pointer to the MLX instance, 
+mlx_ptr: pointer to the MLX instance,
 used for all MLX operations
 win_ptr: pointer to the window created by MLX,
 used for rendering and event handling
+img_ptr: main image buffer wrapper
 */
 struct s_window
 {
@@ -269,6 +394,19 @@ struct s_window
 	t_data	*img_ptr;
 };
 
+/*
+window: MLX window wrapper
+timer: frame timing data
+input: current input state
+player: player state
+player_rect: collision rect for player
+map: parsed map data
+ray: shared ray state
+config: render configuration
+minimap: minimap state
+map_file: path to the loaded map
+z_buffer: depth buffer for wall rendering
+*/
 struct s_game
 {
 	t_window		*window;
