@@ -3,119 +3,150 @@
 /*                                                        :::      ::::::::   */
 /*   cub_render.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+#+#+#+#+   +#+        */
+/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 17:26:20 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/05 17:35:46 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/07 17:29:27 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_RENDER_H
 # define CUB_RENDER_H
 
-/* rendering primitives and frame composition
- * contains image drawing helpers, texture rendering, raycasting, and minimap composition
- */
 # include "cub_structs.h"
 
 /* ------------------ custom rendering functions ------------------ */
 
 /* custom function to put a pixel on the screen */
-/* writes a single pixel into the image buffer */
 void			mlx_put_pixel(t_data *data, int x, int y, int color);
 
 /* custom function to remove a pixel from the screen */
-/* clears a single pixel in the image buffer */
 void			mlx_remove_pixel(t_data *data, int x, int y);
 
 /* function to clear the image buffer*/
-/* fills the full image buffer with a solid color */
-void		clear_buffer(t_data *data, int color);
+void			clear_buffer(t_data *data, int color);
 
 /* function to draw a single line between two points
 using Bresenham's line algorithm */
-/* draws a line between two points using Bresenham's algorithm */
-void		draw_line(t_data *data, t_icoord start, t_icoord end,
-						int color);
+void			draw_line(t_data *data, t_icoord start, t_icoord end,
+					int color);
 
 /* function to draw a filled rectangle given a position,
 dimensions, and color */
-/* draws a filled rectangle and returns its generated geometry */
 t_rectangle		draw_rectangle(t_data *data, t_icoord pos, t_dim dim,
-						int color);
+					int color);
 
 /* function to draw a empty circle given a center,
 radius, and color */
-/* draws a circle outline centered at the given position */
 void			draw_circle(t_data *data, t_icoord center, int radius,
-						int color);
+					int color);
 
 /* function to draw a empty polygon given an array of points,
 number of points, and color */
-/* draws a polygon outline from the supplied vertex list */
 void			draw_polygon(t_data *data, t_icoord *points,
-						int num_points, int color);
+					int num_points, int color);
 
 /* function to render the current frame by putting the image to the window */
-/* presents the prepared image buffer on the MLX window */
 void			render_frame(t_data *data, void *mlx_ptr, void *win_ptr);
 
-/* renders the floor and ceiling background for the current frame */
+/* function to render the background layer which contains the ceiling 
+and ground colors */
 void			render_background(t_data *data, t_game *game);
 
 /* function to free the pixel data and destroy the image */
-/* destroys image resources and frees the pixel buffer wrapper */
 void			free_pixel_data(t_data *data, void *mlx_ptr);
 
 /* function to allocate and prepare image data */
-/* allocates a new off-screen image and returns its pixel buffer */
 t_data			*prepare_image_data(void *mlx_ptr, int width, int height);
 
 /* ------------ helper functions for Bresenham's line algorithm --------------*/
-/* computes the delta between two points */
+
+/*calcule delta: function to calculate the difference between two coordinates.
+the main use of this value is to determine the length of the line */
 t_icoord		calcule_delta(t_icoord start, t_icoord end);
-/* computes the step direction for Bresenham traversal */
+
+/*calcule step: function to calculate the step for each axis.
+the step is 1 or -1, and the main use of this value is 
+to determine the direction of the line */
 t_icoord		calcule_step(t_icoord start, t_icoord end);
 
-/* -------- function to calculate the pivot points of a 
-rectangle for rotation and scaling -------------------------*/
-
-/* computes the rectangle pivot points used for transformations */
+/* function to calculate the pivot points of a rectangle, 
+mainly used for rotation and scaling. subject to future 
+use cases */
 void			calculate_pivot_points(t_rectangle *rect);
 
 /*----------------------- texture management functions ------------------ */
 
-/* loads a texture from disk into an MLX image structure */
+/*function to load a texture from a file */
 t_image			*load_texture(void *mlx_ptr, char *path);
-/* draws a texture image at the requested position */
+
+/* function to render a texture on the screen */
 void			render_texture(t_data *data, t_image *texture, t_icoord pos);
-/* fills a rectangle by sampling pixels from a texture */
+
+/* function to draw a rectangle with a texture */
 void			draw_textured_rectangle(t_data *data, t_icoord pos, t_dim dim,
-									 t_image *texture);
-/* destroys a loaded texture and releases its memory */
+					t_image *texture);
+
+/* function to free a texture and its associated data */
 void			remove_texture(void *mlx_ptr, t_image *texture);
-/* selects the correct wall texture based on the ray hit side */
+
+/* function to get a directional texture based on the game state and ray 
+data */
 t_image			*get_directional_texture(t_game *game);
 
 /*----------------------- raycasting layer functions ------------------ */
 
-/* returns the normalized camera direction vector */
+/* function to calculate the unit vector of the camera's direction.
+the main use of this value is to determine the direction of the camera.
+
+it uses a magnitude value to normalize the vector.
+the magnitude is calculated using the Pythagorean theorem, and the unit vector is
+calculated by dividing the camera's direction vector by its magnitude. 
+then the magnitude is used to calculate the final unit vector, normalizing 
+the values of the x and y direction of the camera.
+this function is needed to determine the direction of the camera */
 t_dcoord		camera_dir_unit(const t_camera *camera);
-/* applies distance and side shading to a sampled pixel color */
+
+/* function to sample a shaded pixel based on its color, distance, and side.
+returns the sampled pixel, utilizing color functions
+to realize bitwise operations depending of the values
+passed to this function. */
 unsigned int	sample_shade_pixel(unsigned int color, float dist,
 					int side, const t_game *game);
-/* casts rays for every screen column and renders wall slices */
+
+/* main function for raycasting. 
+it initializes the camera and perform a loop to 
+renderize each column */					
 void			cast_ray(t_game *game, t_data *data);
 
-/* draws one tile onto the minimap buffer */
+/*------------ minimap layer functions ------------*/
+
+/*function to draw tiles at given position, dimension and color. 
+it checks if there is a buffer given to the minimap and utilizes
+it to draw the tiles in the minimap buffer */
 void			draw_tile_at(t_minimap *minimap, t_icoord pos,
-						t_dim tile_dim, int color);
-/* draws a map grid cell on the minimap */
+					t_dim tile_dim, int color);
+
+/* function to draw the tile on the grid. */
 void			draw_grid_tile(t_minimap *minimap, t_icoord grid_pos);
 
-/* renders the minimap content into its off-screen buffer */
+/* draws the player tile on minimap, at a given position. */
+void			draw_player_on_minimap(t_minimap *minimap, t_game *game);
+
+/* function to set the addresses for the minimap rendering. */
+void			set_minimap_addresses(t_data *main_buffer, t_minimap *mmap,
+					t_icoord *pos, t_icoord *dst);
+
+/* function to render the player and ray on the minimap. */
+void			render_player_and_ray(t_game *game, t_minimap *minimap);
+
+/* main function to render the minimap. 
+it sets the offset of the minimap and clear the buffer at each frame,
+draws the grid and set the player position*/
 void			render_minimap(t_minimap *minimap, t_game *game);
-/* blends the minimap buffer over the main frame buffer */
-void			composite_minimap_to_main(t_data *main_buffer, t_minimap *minimap);
+
+/* function to composite the minimap onto the main buffer. */
+void			composite_minimap_to_main(t_data *main_buffer,
+					t_minimap *minimap);
 
 #endif

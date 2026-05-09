@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub_input.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 13:49:45 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/09 15:38:20 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:58:38 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_INPUT_H
 # define CUB_INPUT_H
 
-/* keyboard input definitions and helpers
- * maps keycodes to movement and camera actions handled by the game loop
- */
+/* key codes */
 # define KEY_UP 65362
 # define KEY_DOWN 65364
 # define KEY_LEFT 65361
@@ -25,13 +23,19 @@
 # define KEY_D 100
 # define KEY_W 119
 
-/* returns whether the keycode belongs to the arrow key set */
+/* -----------------input handling functions --------------------*/
+
+/* verify if the key is an arrow key */
 int		is_arrow_key(int keycode);
-/* rotates the player according to the pressed arrow key */
+
+/* handle the arrow key press and update the player's angle accordingly */
 void	handle_arrow_press(int keycode, t_player *player, t_game *game);
-/* returns whether the keycode belongs to the movement keys */
+
+/* verify if the key is a directional movement key (WASD) */
 int		is_direction_key(int keycode);
-/* applies movement input to the player state */
+
+/* handle the directional movement key press and update the player's 
+position using the current angle as reference to the direction */
 void	handle_direction_press(int keycode, t_player *player, t_game *game);
 
 #endif

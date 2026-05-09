@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:35:12 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/09 15:41:36 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/07 16:48:20 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_STRUCTS_H
 # define CUB_STRUCTS_H
 
-/* project-wide data structures
- * groups the runtime state used by parsing, rendering, input, minimap, and raycasting
- */
 # include "cub_types.h"
 
 typedef struct s_render_cfg	t_render_cfg;
@@ -35,12 +32,15 @@ typedef struct s_data		t_data;
 typedef struct s_line		t_line;
 typedef struct s_frect		t_frect;
 typedef struct s_rectangle	t_rectangle;
-typedef struct s_sprite		t_sprite;
 typedef struct s_image		t_image;
 typedef struct s_timer		t_timer;
 typedef struct s_input		t_input;
 
 /*
+s_data: structure that holds the image data and dimensions for rendering.
+each image inside minilibx is represented by a t_data struct,
+which contains the following fields:
+
 img: pointer to the image created by mlx_new_image
 tmp_img: pointer to a temporary image used for
 off-screen rendering
@@ -66,10 +66,21 @@ struct s_data
 	int		height;
 };
 
-/*
-start: line start coordinate
-end: line end coordinate
-color: line color in packed hex
+/*s_line: structure that holds the start and end points of a line,
+along with its color for rendering. it's an important function, 
+responsible to draw the rays in the minimap.
+it utilizes Bresenham's line algorithm to efficiently
+draw a line between two points on the screen.
+the algorithm calculates the difference in x and y
+coordinates between the start and end points,
+and determines the steps needed to draw the line while
+minimizing the number of pixels used.
+
+fields:
+start: the starting point of the line, represented as a t_icoord structure
+end: the ending point of the line, represented as a t_icoord structure
+color: the color of the line, represented as an integer 
+(usually in hexadecimal format)
 */
 struct s_line
 {
@@ -79,6 +90,11 @@ struct s_line
 };
 
 /*
+s_timer: structure that holds timing information for the game,
+used to calculate the time difference between frames and
+control the game's timing and animation.
+It contains the following fields:
+
 timeval: structure that holds the last recorded time
 and the delta time between frames
 last_time: the last recorded time, used to calculate
@@ -93,15 +109,18 @@ struct s_timer
 	float			delta_time;
 };
 
-/*
-left: arrow left pressed
-right: arrow right pressed
-up: arrow up pressed
-down: arrow down pressed
-w: move forward pressed
-a: strafe left pressed
-s: move backward pressed
-d: strafe right pressed
+/*s_input: structure that holds the input state for the game,
+used to handle keyboard and mouse input events.
+It contains the following fields:
+
+left: boolean indicating if the left arrow key is pressed
+right: boolean indicating if the right arrow key is pressed
+up: boolean indicating if the up arrow key is pressed
+down: boolean indicating if the down arrow key is pressed
+w: boolean indicating if the 'W' key is pressed
+a: boolean indicating if the 'A' key is pressed
+s: boolean indicating if the 'S' key is pressed
+d: boolean indicating if the 'D' key is pressed
 */
 struct s_input
 {
@@ -115,12 +134,14 @@ struct s_input
 	int	d;
 };
 
-/*
-img_ptr: MLX image handle
-path: texture file path
-addr: pointer to raw pixel data
-data: cached image metadata
-dim: image dimensions in pixels
+/*s_image: structure that holds the image data and dimensions for rendering.
+It contains the following fields:
+
+img_ptr: pointer to the image created by mlx_new_image
+path: the file path to the image, used for loading textures
+addr: pointer to the memory area where the image data can be accessed
+data: structure that holds the image data and dimensions
+dim: structure that holds the width and height of the image
 */
 struct s_image
 {
@@ -131,19 +152,23 @@ struct s_image
 	t_dim	dim;
 };
 
-/*
-fog_distance: max distance before fog fully applies
-ray_distance: max ray distance for rendering
-light_intensity: global light strength
-shadow_factor: shadow contribution factor
-shade: current shade multiplier
-shadow_k: shadow curve coefficient
-max_render_distance: render cutoff distance
-render_quality: quality level for rendering
-base_color: base RGB color for shading
-shade_color: shaded RGB color
-tex_color: texture RGB color
-shaded_hex: final shaded color packed as hex
+/*s_render_cfg: structure that holds the rendering configuration for the game,
+used to control various rendering parameters and effects. 
+
+fields:
+fog_distance: the distance at which fog starts to affect the rendering
+ray_distance: the distance at which rays are rendered
+light_intensity: the intensity of the light in the scene
+shadow_factor: the factor that controls the darkness of shadows
+shade: the overall shade applied to the scene
+shadow_k: the factor that controls the darkness of shadows based on distance
+max_render_distance: the maximum distance at which objects are rendered
+render_quality: the quality level of rendering, which can affect performance
+base_color: the base color used for rendering
+shade_color: the color used for shading effects
+tex_color: the color used for textures
+shaded_hex: the final color value after applying shading and lighting effects,
+represented as an unsigned integer (usually in hexadecimal format)
 */
 struct s_render_cfg
 {
@@ -161,12 +186,15 @@ struct s_render_cfg
 	unsigned int	shaded_hex;
 };
 
-/*
-x: screen column index
-line_h: projected wall slice height
-perp: perpendicular distance to wall
-tex_x: texture column index
-screen_h: screen height used for projection
+/*s_column: structure that holds the column data for rendering. 
+fields:
+
+x: the x-coordinate of the column on the screen
+line_h: the height of the line to be drawn for the column
+perp: the perpendicular distance from the camera to the wall hit by the ray
+tex_x: the x-coordinate on the texture that corresponds to the column
+screen_h: the height of the screen, used for calculating
+the line height and draw bounds
 */
 struct s_column
 {
@@ -177,12 +205,14 @@ struct s_column
 	int			screen_h;
 };
 
-/*
-wall_x: horizontal hit position on the wall
-texture: texture selected for the hit side
-tex_x: texture column index
-hit_side: which side of the wall was hit
-*/
+/*s_wall_ctx: structure that holds the context for wall rendering.
+fields:
+wall_x: the x-coordinate of the wall hit by the ray
+texture: pointer to the texture image for the wall
+tex_x: the x-coordinate on the texture that corresponds to the wall	
+hit_side: the side of the wall that was hit by the ray
+(0 for north/south, 1 for east/west). if any of the sides are hit, 
+it verifies which side was hit */
 struct s_wall_ctx
 {
 	double	wall_x;
@@ -191,19 +221,24 @@ struct s_wall_ctx
 	int		hit_side;
 };
 
-/*
-north_texture: loaded north wall texture
-south_texture: loaded south wall texture
-west_texture: loaded west wall texture
-east_texture: loaded east wall texture
-north_path: north texture file path
-south_path: south texture file path
-west_path: west texture file path
-east_path: east texture file path
-grid: map grid rows
-dim: map dimensions in tiles
-floor_color: floor color in packed hex
-ceiling_color: ceiling color in packed hex
+/*s_map: main structure of the map data. it receives the 
+dimensions, textures, and other map-related information.
+
+fields:
+north_texture: pointer to the texture image for the north wall
+south_texture: pointer to the texture image for the south wall
+west_texture: pointer to the texture image for the west wall
+east_texture: pointer to the texture image for the east wall
+north_path: the file path to the texture for the north wall
+south_path: the file path to the texture for the south wall
+west_path: the file path to the texture for the west wall
+east_path: the file path to the texture for the east wall
+grid: a 2D array of characters representing the map layout
+dim: structure that holds the width and height of the map
+floor_color: the color used for the floor,
+represented as an unsigned integer
+ceiling_color: the color used for the ceiling,
+represented as an unsigned integer
 */
 struct s_map
 {
@@ -221,19 +256,29 @@ struct s_map
 	unsigned int	ceiling_color;
 };
 
-/*
-data: target image buffer
-player: player state reference
-pos: ray position in grid coords
-dir: ray direction in grid coords
-fpos: ray position in world coords
-fdir: ray direction in world coords
-hit: hit point in world coords
-length: total ray length
-hit_wall: wall hit flag
-hit_sprite: sprite hit flag
-hit_side: wall side hit
-color: final hit color
+/*s_ray: main structure which holds the raycasting data.
+
+fields:
+t_data: structure that holds the image data and dimensions for rendering
+player: pointer to the player structure, used to access the player's
+position, direction and other attributes
+pos: the integer coordinates of the ray's current position in the map grid
+dir: the integer direction vector of the ray, used for DDA calculations
+fpos: the floating-point coordinates of the ray's current position in the map
+(needed for accurate raycasting calculations)
+fdir: the floating-point direction vector of the ray
+(needed for accurate raycasting calculations)
+hit: the floating-point coordinates of the point where the ray hits a wall
+(needed for the rendering of the wall slice)
+length: the distance from the player to the point where the ray hits a wall
+(determined by the DDA algorithm)
+hit_wall: boolean indicating if the ray has hit a wall
+hit_sprite: boolean indicating if the ray has hit a sprite
+(may be used for future sprite rendering)
+hit_side: the side of the wall that was hit by the ray
+(0 for north/south, 1 for east/west)
+color: the color of the ray, used for rendering the ray on the minimap
+(and for debugging purposes)
 */
 struct s_ray
 {
@@ -251,14 +296,35 @@ struct s_ray
 	int			color;
 };
 
-/*
-rmap: current grid position
-rd: ray direction
-delta_dist: distance to next side in each axis
-side_dist: accumulated side distance
-step: grid step direction
-hit: hit flag
-side: hit side index
+/*s_dda: structure that holds the data for the DDA algorithm.
+DDA (Digital Differential Analyzer) is a method used in raycasting to determine
+the point of intersection between a ray and the walls in the map.
+it utilizes the ray's position and direction
+to step through the grid and find the point
+where the ray hits a wall. it has advantages over other methods mainly 
+in terms of performance and accuracy, as it allows for efficient traversal
+of the grid and precise calculation of the intersection point.
+the way the DDA algorithm works is by calculating the distance 
+from the ray's current position
+to the next grid line in both the x and y directions,
+and then stepping to the next grid cell based on which distance is shorter.
+this process continues until a wall is hit, at which point
+the algorithm can determine the exact point
+of intersection and the distance from the player to that point,
+which is crucial for rendering the scene correctly.
+the step size is determined by the ray's direction,
+and the algorithm keeps track of the current
+map cell the ray is in, as well as the distance
+to the next grid line in both directions.
+
+fields:
+rmap: 		the integer coordinates of the ray's current position in the map grid
+rd: 		the floating-point direction vector of the ray
+delta_dist: the distance between the ray's
+			current position and the next grid line
+side_dist: 	the distance from the ray's current position to the next grid line
+step: 		the step size in the x and y directions,
+			determined by the ray's direction
 */
 struct s_dda
 {
@@ -271,13 +337,6 @@ struct s_dda
 	int			side;
 };
 
-/*
-pos: camera position
-dir: camera direction
-plane: camera projection plane
-screen_dim: screen dimensions
-inv_screen_width: inverse of screen width
-*/
 struct s_camera
 {
 	t_dcoord	pos;
@@ -287,15 +346,6 @@ struct s_camera
 	float		inv_screen_width;
 };
 
-/*
-pos: player position in world coords
-dim: player dimensions
-color: player color
-ray: player-facing ray data
-angle: player viewing angle
-collision_radius: player collision radius
-orientation: spawn orientation
-*/
 struct s_player
 {
 	t_dcoord	pos;
@@ -308,14 +358,22 @@ struct s_player
 };
 
 /*
+s_minimap: structure that holds the data for the minimap layer.
+the minimap is a smaller representation of the game map, used to provide
+the player with a visual overview of their surroundings. 
+in this implementation, the minimap is rendered in a different buffer
+than the main game view, allowing for efficient rendering and compositing,
+and all the engine functions takes the minimap structure as a parameter.
+
+it contains the following fields:
 buffer: structure that holds the minimap's image data and dimensions
 mlx_ptr: pointer to the MLX instance, used for all MLX operations
 dim: dimensions of the minimap
 ref_map: reference to the main game map, used to determine what to render
 pos: position of the minimap on the screen
 offset: offset to center the minimap around the player
-player_pos: current position of the player, used to calculate
-the player's position on the minimap
+player_pos: current position of the player, used to calculate 
+	the player's position on the minimap
 scale: scaling factor to adjust the size of the minimap
 */
 struct s_minimap
@@ -330,11 +388,16 @@ struct s_minimap
 	float		scale;
 };
 
-/*
-pos: rectangle position
-dim: rectangle dimensions
-color: rectangle color
-points: rectangle corner and pivot points
+/*s_rectangle: structure that holds the data for a rectangle shape.
+its main use is for render the floor and ceiling of the renderer, 
+as well of the walls in the minimap. 
+
+fields:
+pos:	position of the rectangle
+dim		dimensions of the rectangle
+color:	color of the rectangle
+points: array of points that represent the corners of the rectangle,
+		may be used for rotation and scaling transformations in the future.
 */
 struct s_rectangle
 {
@@ -344,14 +407,20 @@ struct s_rectangle
 	t_icoord	points[9];
 };
 
-/*
-x: rectangle x position
-y: rectangle y position
-pos: rectangle position in world coords
-dim: rectangle dimensions
-width: rectangle width
-height: rectangle height
-points: sampled points for collision checks
+/*s_frect: structure that holds the data for a floating-point rectangle shape.
+its main use is for collision detection. 
+
+fields:
+x: the x-coordinate of the rectangle's position
+y: the y-coordinate of the rectangle's position
+pos: the integer coordinates of the rectangle's position,
+used for grid-based collision detection
+dim: the dimensions of the rectangle
+width: the width of the rectangle
+height: the height of the rectangle
+points: array of points that represent the corners and 
+points of rotation of the rectangle.
+may be used for collision detection and future transformations.
 */
 struct s_frect
 {
@@ -365,27 +434,13 @@ struct s_frect
 };
 
 /*
-pos: sprite position
-dim: sprite dimensions
-texture: sprite texture
-color: sprite color
-rotation: sprite rotation
-*/
-struct s_sprite
-{
-	t_icoord	pos;
-	t_dim		dim;
-	t_image		*texture;
-	int			color;
-	int			rotation;
-};
+s_window: structure that holds the data for the game window.
+it contains the following fields:
 
-/*
-mlx_ptr: pointer to the MLX instance,
+mlx_ptr: pointer to the MLX instance, 
 used for all MLX operations
 win_ptr: pointer to the window created by MLX,
 used for rendering and event handling
-img_ptr: main image buffer wrapper
 */
 struct s_window
 {
@@ -395,17 +450,35 @@ struct s_window
 };
 
 /*
-window: MLX window wrapper
-timer: frame timing data
-input: current input state
-player: player state
-player_rect: collision rect for player
-map: parsed map data
-ray: shared ray state
-config: render configuration
-minimap: minimap state
-map_file: path to the loaded map
-z_buffer: depth buffer for wall rendering
+s_game: main structure that holds all the game data and state.
+fields:
+
+window:		pointer to the game window structure,
+			used for rendering and event handling
+timer: 		structure that holds timing information for the game,
+			used for the control the game's timing.
+input:		structure that holds the input state for the game,
+			used for the handling of keyboard input events.
+player:		pointer to the player structure, used to access the
+			player's position, direction and other attributes.
+player_rect: structure that holds the data for the player's collision rectangle,
+			used for collision detection.
+map: 		pointer to the map structure, used to access the map layout,
+			textures and other map-related information.
+ray:		structure that holds the raycasting data, used for rendering 
+			the scene and handling raycasting calculations.
+config:		structure that holds the rendering configuration for the game, used
+			for the control various rendering parameters and effects.
+minimap:	pointer to the minimap structure, used for rendering the 
+			minimap layer and providing the player with a visual
+			overview of their surroundings.
+map_file:	the file path to the map file, used for loading the map data
+z_buffer:	pointer to an array of floats used for depth
+			buffering in the raycasting rendering process,
+			used to store the distance from the player to the walls
+			for each column of the screen, allowing for correct rendering
+			of walls based on their distance from the player and handling
+			of occlusion and shading effects.
 */
 struct s_game
 {
