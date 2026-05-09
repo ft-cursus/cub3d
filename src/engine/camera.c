@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 15:58:35 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/04 16:15:50 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 18:16:10 by bmoreira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	move_camera(t_camera *camera, t_map *map, float move_step)
 	if (!rect_collides(map, new_pos_x, 0.1f))
 		camera->pos.x = new_pos_x.x;
 	else
-		fprintf(stderr, "move_camera: blocked X\n");
+		printf(stderr, "move_camera: blocked X\n");
 	new_pos_y.x = camera->pos.x;
 	new_pos_y.y = camera->pos.y + (move_step * camera->dir.y);
 	if (!rect_collides(map, new_pos_y, 0.1f))
 		camera->pos.y = new_pos_y.y;
 	else
-		fprintf(stderr, "move_camera: blocked Y\n");
+		printf(stderr, "move_camera: blocked Y\n");
 }
 
 void	get_camera_ray(t_camera *camera, int x, t_ray *ray)
