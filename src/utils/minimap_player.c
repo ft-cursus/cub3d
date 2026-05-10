@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:34:14 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/04/30 14:33:45 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 18:51:21 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ float	set_start_angle(char orientation)
 {
 	float	angle;
 
+	angle = 0;
 	if (orientation == 'N')
 		angle = 3 * PI / 2;
 	else if (orientation == 'S')
@@ -24,8 +25,6 @@ float	set_start_angle(char orientation)
 		angle = 0;
 	else if (orientation == 'W')
 		angle = PI;
-	else
-		angle = 0;
 	return (angle);
 }
 

@@ -6,7 +6,7 @@
 /*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/09 23:25:44 by barbara.dru      ###   ########.fr       */
+/*   Updated: 2026/05/09 23:31:25 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int	process_config_line(t_map *map, char *line)
 		return (0);
 	}
 	ft_free_split(parts);
+	if (!is_valid_map_line(line))
+		error_handler(map, NULL, INVALID_ELEMENT);
 	return (1);
 }
 
