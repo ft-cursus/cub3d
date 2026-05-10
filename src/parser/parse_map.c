@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoreira <bmoreira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 20:09:00 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/09 20:10:43 by bmoreira         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:25:44 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	parse_map(t_map *map, char *file_name)
 		else
 		{
 			parse_grid(map, fd, line);
+			init_player_from_grid(map);
 			validate_grid(map);
 			return (0);
 		}

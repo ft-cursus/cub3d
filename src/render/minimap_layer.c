@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_layer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:20:34 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/05 17:35:54 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:27:27 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,8 @@ void	composite_minimap_to_main(t_data *main_buffer, t_minimap *mmap)
 {
 	t_icoord	pos;
 	t_icoord	dst;
-	int			pixel_count;
 
 	pos.y = 0;
-	pixel_count = 0;
 	while (pos.y < mmap->buffer->height)
 	{
 		pos.x = 0;
@@ -89,10 +87,7 @@ void	composite_minimap_to_main(t_data *main_buffer, t_minimap *mmap)
 			dst.y = mmap->pos.y + pos.y;
 			if (dst.x >= 0 && dst.x < main_buffer->width
 				&& dst.y >= 0 && dst.y < main_buffer->height)
-			{
 				set_minimap_addresses(main_buffer, mmap, &pos, &dst);
-				pixel_count++;
-			}
 			pos.x++;
 		}
 		pos.y++;

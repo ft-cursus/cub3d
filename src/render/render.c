@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:19:29 by lsarraci          #+#    #+#             */
-/*   Updated: 2026/05/05 17:36:59 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:26:51 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	render(void *param)
 {
 	t_game		*game;
 	t_data		*data;
-	static int	frame = 0;
 
 	game = (t_game *)param;
 	update_timer(&game->timer);
@@ -53,6 +52,5 @@ int	render(void *param)
 	else
 		cast_ray(game, data);
 	render_frame(data, game->window->mlx_ptr, game->window->win_ptr);
-	frame++;
 	return (0);
 }
