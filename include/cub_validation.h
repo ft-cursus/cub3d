@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_validation.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:56:05 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/09 19:06:29 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:30:23 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ int	is_valid_texture(char *id);
 /*verify if a line contains only valid map characters
 (0, 1, space, N, S, E, W)*/
 int	is_valid_map_line(char *line);
+
+/*verify if the character is allowed inside grid (N, S, W, E, 1, 0)*/
+int	is_valid_map_char(char c);
 
 #endif

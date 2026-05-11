@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:55:19 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/09 19:03:01 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:55:32 by barbara.dru      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	is_valid_map_line(char *line)
 	while (line[i])
 	{
 		if (!(line[i] == '0' || line[i] == '1' || line[i] == ' '
-				|| line[i] == 'N' || line[i] == 'S'
+				|| line[i] == '\t' || line[i] == 'N' || line[i] == 'S'
 				|| line[i] == 'E' || line[i] == 'W' || line[i] == '\n'))
 			return (0);
 		i++;

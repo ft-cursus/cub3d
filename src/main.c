@@ -16,8 +16,6 @@ static void	remove_buffer_data_without_map(t_game *game)
 {
 	if (game->minimap)
 		destroy_minimap(game->minimap);
-	if (game->player)
-		destroy_player(game->player);
 	if (game->z_buffer)
 		free(game->z_buffer);
 }
