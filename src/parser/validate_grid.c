@@ -6,7 +6,7 @@
 /*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 18:17:38 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/11 15:20:44 by lsarraci         ###   ########.fr       */
+/*   Updated: 2026/05/11 15:50:23 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,28 @@ static int	flood_fill(char **grid, int height, int y, int x)
 	return (1);
 }
 
-static void	validate_allowed_chars(t_map *map)
+static void	validate_allowed_chars(t_map *map, int y)
 {
-	int	y;
 	int	x;
 	int	player_count;
 
 	if (!map || !map->grid)
 		return ;
 	player_count = 0;
-	y = 0;
 	while (y < map->dim.height)
 	{
 		if (map->grid[y])
-			for (x = 0; map->grid[y][x]; x++)
+		{
+			x = 0;
+			while (map->grid[y][x])
 			{
 				if (!is_valid_map_char(map->grid[y][x]))
 					error_handler(map, NULL, INVALID_GRID);
 				if (is_orientation_char(map->grid[y][x]))
 					player_count++;
+				x++;
 			}
+		}
 		y++;
 	}
 	if (player_count != 1)
@@ -77,7 +79,7 @@ void	validate_grid(t_map *map)
 {
 	char	**grid_dup;
 
-	validate_allowed_chars(map);
+	validate_allowed_chars(map, 0);
 	if (!map || !map->grid || !map->player)
 		return ;
 	grid_dup = ft_matrix_dup(map->grid);
