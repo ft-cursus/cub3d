@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_grid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: barbara.drummond <barbara.drummond@stud    +#+  +:+       +#+        */
+/*   By: lsarraci <lsarraci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 18:17:38 by bmoreira          #+#    #+#             */
-/*   Updated: 2026/05/09 23:54:09 by barbara.dru      ###   ########.fr       */
+/*   Updated: 2026/05/11 15:20:44 by lsarraci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ static void	validate_allowed_chars(t_map *map)
 	}
 	if (player_count != 1)
 		error_handler(map, NULL, INVALID_GRID);
+}
+
+int	is_valid_map_char(char c)
+{
+	return (c == '0' || c == '1' || c == ' '
+		|| c == '\t' || c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W' || c == '\n');
 }
 
 void	validate_grid(t_map *map)
